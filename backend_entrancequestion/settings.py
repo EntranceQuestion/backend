@@ -28,6 +28,15 @@ ALLOWED_HOSTS = [
 #     "http://127.0.0.1:9000",
 # ]
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://entrancequestion.com",
+    "https://apiofentrancequestion.entrancequestion.com",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://entrancequestion.com",
+    "https://apiofentrancequestion.entrancequestion.com",
+]
 
 # Application definition
 
