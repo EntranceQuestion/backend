@@ -111,7 +111,7 @@ USE_TZ = True
 
 # STATIC_URL = 'static/'
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/entranc1/public_html/static/api_entrancequestion'
+STATIC_ROOT = '/home/entranc1/public_html/api_entrancequestion/static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
