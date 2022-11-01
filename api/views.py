@@ -7,12 +7,34 @@ from .serializers import ModelQuestionSerializer
 
 @api_view(["GET"])
 def model_question(request):
-    questions = ModelQuestion.objects.order_by("id").values_list('id', flat=True)
-    # question = models.ModelQuestion.objects.all().values_list('id', flat=True)
-    random_id = random.choice(questions)
-    print("---------------------------")
-    print(random_id)
-    print("---------------------------")
-    question = ModelQuestion.objects.get(pk=random_id)
-    data = ModelQuestionSerializer(question, many=False)
-    return Response(data.data)
+    question_ids = list( ModelQuestion.objects.order_by("id").values_list("id", flat=True))
+
+    # number of model questions to return per request
+    no_of_model_question = 50
+    len_question_ids = len(question_ids)
+    if len_question_ids < no_of_model_question:
+        no_of_model_question = len_question_ids
+
+    random_ids = random.sample(question_ids, no_of_model_question)
+    # print("----------- random ids ----------------")
+    # print(random_ids)
+    # print("--------------------------------------")
+    model_questions = []
+    for id in random_ids:
+        question_data = ModelQuestion.objects.get(pk=id)
+
+        result = {
+            "id": question_data.id,
+            "question": question_data.question,
+            "option_1": question_data.option_1,
+            "option_2": question_data.option_2,
+            "option_3": question_data.option_3,
+            "option_4": question_data.option_4,
+            "correct_option": question_data.id
+        }
+        model_questions.append(result)
+
+    # data = ModelQuestionSerializer(model_question, many=True)
+    # return Response(data.data)
+
+    return Response(model_questions)
