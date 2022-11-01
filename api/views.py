@@ -30,7 +30,7 @@ def model_question(request):
             "option_2": question_data.option_2,
             "option_3": question_data.option_3,
             "option_4": question_data.option_4,
-            "correct_option": question_data.id
+            "correct_option": question_data.correct_option
         }
         model_questions.append(result)
 
