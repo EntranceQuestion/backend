@@ -5,33 +5,41 @@ from .models import ModelQuestion
 
 # from .serializers import ModelQuestionSerializer
 
-
 @api_view(["GET", "POST"])
 def model_question(request):
     total_question_ids = list(
         ModelQuestion.objects.order_by("id").values_list("id", flat=True)
     )
     question_ids = total_question_ids.copy()
+    len_question_ids = len(total_question_ids)
 
     # number of model questions to return per request
     no_of_model_question = 50
-    len_question_ids = len(total_question_ids)
     if len_question_ids < no_of_model_question:
         no_of_model_question = len_question_ids
 
     len_solved_ids = len(request.data)
+    print("------------ solved ids ---------------")
+    print(len_solved_ids)
+    print(request.data)
+    print("---------------------------------------")
 
     solved_question_ids = []
+    import re
     if len_solved_ids > 0:
-        if len_question_ids > len_solved_ids:
-            solved_question_ids = list(request.data)[0].strip("[]").split(",")
+        solved_question_ids = list(request.data)[0].strip("[]").split(",")
+        print("\n\n\n---------------------------------------")
+        print(solved_question_ids)
+        print(len(solved_question_ids))
+        print(len_question_ids)
+        if len_question_ids > len(solved_question_ids):
             # removed all solved question ids
             for id in solved_question_ids:
-                id = int(id.strip('"'))
+                # id = int(id.strip('"'))
+                id = int(re.findall("\d+", id)[0])
                 question_ids.remove(id)
 
     if len(question_ids) < no_of_model_question:
-        no_of_model_question = len(total_question_ids)
         question_ids = total_question_ids
         solved_question_ids = []
 
