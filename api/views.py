@@ -15,19 +15,20 @@ def model_question(request):
 
     # number of model questions to return per request
     no_of_model_question = 50
-    len_question_ids = len(question_ids)
+    len_question_ids = len(total_question_ids)
     if len_question_ids < no_of_model_question:
         no_of_model_question = len_question_ids
 
     len_solved_ids = len(request.data)
 
     solved_question_ids = []
-    if (len_question_ids - len_solved_ids) > 0:
-        solved_question_ids = list(request.data)[0].strip("[]").split(",")
-        # removed all solved question ids
-        for id in solved_question_ids:
-            id = int(id.strip('"'))
-            question_ids.remove(id)
+    if len_solved_ids > 0:
+        if len_question_ids > len_solved_ids:
+            solved_question_ids = list(request.data)[0].strip("[]").split(",")
+            # removed all solved question ids
+            for id in solved_question_ids:
+                id = int(id.strip('"'))
+                question_ids.remove(id)
 
     if len(question_ids) < no_of_model_question:
         no_of_model_question = len(total_question_ids)
