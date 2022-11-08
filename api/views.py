@@ -22,7 +22,7 @@ def model_question(request):
     len_solved_ids = len(request.data)
 
     solved_question_ids = []
-    if len_solved_ids > 0:
+    if (len_question_ids - len_solved_ids) > 0:
         solved_question_ids = list(request.data)[0].strip("[]").split(",")
         # removed all solved question ids
         for id in solved_question_ids:
